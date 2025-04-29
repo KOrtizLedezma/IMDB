@@ -61,7 +61,7 @@
 ## Checklist
 - [x] Build DataStore
 - [x] Build Command Parser
-- [ ] Build Single-Client TCP Server
+- [x] Build Single-Client TCP Server
 - [ ] Add Persistence
 - [ ] Add Logger 
 - [ ] Make DataStore Thread-Safe
@@ -71,3 +71,4 @@
 - [ ] Add Eviction
 - [ ] Add Pub/Sub Monitoring
 - [ ] Add Clustering
+  

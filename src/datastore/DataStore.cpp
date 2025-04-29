@@ -1,4 +1,3 @@
-// src/datastore/DataStore.cpp
 #include "DataStore.hpp"
 #include <stdexcept>
 
@@ -23,4 +22,12 @@ void DataStore::del(const std::string& key) {
 
 bool DataStore::exists(const std::string& key) const {
   return store.find(key) != store.end();
+}
+
+std::vector<std::pair<std::string, std::string>> DataStore::getAll() const {
+    std::vector<std::pair<std::string, std::string>> data;
+    for (const auto& pair : store) {
+        data.push_back(pair);
+    }
+    return data;
 }

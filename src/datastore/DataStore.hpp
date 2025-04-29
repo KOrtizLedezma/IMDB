@@ -1,8 +1,9 @@
-// src/datastore/DataStore.hPP
 #pragma once
 
 #include <string>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 class DataStore {
 public:
@@ -14,6 +15,7 @@ public:
   std::string get(const std::string& key) const;
   void del(const std::string& key);
   bool exists(const std::string& key) const;
+  std::vector<std::pair<std::string, std::string>> getAll() const;
 
 private:
   std::unordered_map<std::string, std::string> store;

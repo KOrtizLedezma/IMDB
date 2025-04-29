@@ -8,7 +8,8 @@
 #include <unistd.h>
 #include <netinet/in.h>
 
-Server::Server(int port) : port(port) {}
+Server::Server(int port, DataStore& datastore, PersistenceManager& persistence)
+    : port(port), datastore(datastore), persistence(persistence) {}
 
 void Server::start() {
   int server_fd, client_socket;
@@ -19,6 +20,12 @@ void Server::start() {
   server_fd = socket(AF_INET, SOCK_STREAM, 0);
   if (server_fd == 0) {
     perror("Socket failed");
+    exit(EXIT_FAILURE);
+  }
+
+  int opt = 1;
+  if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+    perror("setsockopt failed");
     exit(EXIT_FAILURE);
   }
 
@@ -51,7 +58,6 @@ void Server::start() {
 
   // Process client commands
   char buffer[1024] = {0};
-  DataStore datastore;
 
   while (true) {
     memset(buffer, 0, sizeof(buffer));
@@ -71,15 +77,25 @@ void Server::start() {
     if (command.type == CommandType::SET) {
       datastore.set(command.key, command.value);
       response = "OK\n";
-    } else if (command.type == CommandType::GET) {
+      persistence.save(datastore);
+    }
+    else if (command.type == CommandType::GET) {
       std::string value = datastore.get(command.key);
       response = value + "\n";
-    } else if (command.type == CommandType::DEL) {
+    }
+    else if (command.type == CommandType::DEL) {
       datastore.del(command.key);
       response = "OK\n";
-    } else if (command.type == CommandType::EXISTS) {
+      persistence.save(datastore);
+    }
+    else if (command.type == CommandType::EXISTS) {
       response = datastore.exists(command.key) ? "1\n" : "0\n";
-    } else {
+    }
+    else if (command.type == CommandType::EXIT) {
+      std::cout << "Client requested exit" << std::endl;
+      break;
+    }
+    else {
       response = "ERROR: Invalid command\n";
     }
 

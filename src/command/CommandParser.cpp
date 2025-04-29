@@ -30,5 +30,8 @@ Command CommandParser::parse(const std::string& input) {
     else if (command == "EXISTS" && tokens.size() == 2) {
       return {CommandType::EXISTS, tokens[1], ""};
     }
+    else if (command == "EXIT" && tokens.size() == 1) {
+      return {CommandType::EXIT, "", ""};
+    }
     return {CommandType::INVALID, "", ""};
 }

@@ -7,6 +7,7 @@ enum class CommandType {
   GET,
   DEL,
   EXISTS,
+  EXIT,
   INVALID // Wrong commands
 };
 
