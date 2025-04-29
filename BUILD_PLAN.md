@@ -64,7 +64,7 @@
 - [x] Build Single-Client TCP Server
 - [x] Add Persistence
 - [x] Add Logger 
-- [ ] Make DataStore Thread-Safe
+- [x] Make DataStore Thread-Safe
 - [ ] Add Worker Threads
 - [ ] Add Authentication
 - [ ] Add Connection Timeouts

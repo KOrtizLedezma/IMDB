@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <shared_mutex>
+#include <mutex>
 
 class DataStore {
 public:
@@ -19,4 +21,5 @@ public:
 
 private:
   std::unordered_map<std::string, std::string> store;
+  mutable std::shared_mutex mutex;
 };
