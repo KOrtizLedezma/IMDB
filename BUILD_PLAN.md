@@ -60,7 +60,7 @@
 
 ## Checklist
 - [x] Build DataStore
-- [ ] Build Command Parser
+- [x] Build Command Parser
 - [ ] Build Single-Client TCP Server
 - [ ] Add Persistence
 - [ ] Add Logger 

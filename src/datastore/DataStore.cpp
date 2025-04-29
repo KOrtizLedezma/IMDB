@@ -14,7 +14,7 @@ std::string DataStore::get(const std::string& key) const{
   if (it != store.end()) {
     return it->second;
   }
-  throw std::runtime_error("Key not found");
+  return "NOT_FOUND";
 }
 
 void DataStore::del(const std::string& key) {
