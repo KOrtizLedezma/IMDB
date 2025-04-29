@@ -2,7 +2,7 @@
 
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++20 -I./src
+CXXFLAGS = -std=c++20 -pthread -I./src
 
 # Source files
 SRC = \
@@ -11,6 +11,7 @@ src/command/CommandParser.cpp \
 src/server/Server.cpp \
 src/persistence/PersistenceManager.cpp \
 src/logger/Logger.cpp \
+src/worker/WorkerPool.cpp \
 src/main.cpp
 
 # Output executable name
