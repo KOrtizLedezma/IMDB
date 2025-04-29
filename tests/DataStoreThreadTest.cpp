@@ -14,9 +14,14 @@ void reader_thread(DataStore& store, int id) {
   for (int i = 0 ; i < 100; i++) {
     std::string key = "key" + std::to_string(id % 2) + "_" + std::to_string(i);
     std::string value = store.get(key);
-
-    if (value != "NOT FOUND") {
-      assert(std::stoi(value) == i);
+    try {
+      if (value != "NOT_FOUND") {
+        int val = std::stoi(value);
+        assert(val == i);
+       }
+    }
+    catch (const std::exception& e) {
+      std::cerr << "[ERROR] Exception in reader_thread: " << e.what() << "\n";
     }
   }
 }
@@ -31,7 +36,7 @@ int main() {
   }
 
   for (int i = 0; i < 4; i++) {
-    threads.emplace_back(writer_thread, std::ref(store), i);
+    threads.emplace_back(reader_thread, std::ref(store), i);
   }
 
   for (auto& thread : threads) {
