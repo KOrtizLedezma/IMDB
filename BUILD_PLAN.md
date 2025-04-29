@@ -4,7 +4,7 @@
 
 - DataStore
   - Build the core key-value store. 
-  - Support basic operations: `SET`, `GET`, `DEL`, `EXISTS`.
+  - Support basic operations: `SET`, `GET`, `DEL`, `EXISTS`, `EXIT`.
   - Store data in `std::unordered_map<std::string, Value>.`
   - Plan for thread-safety later (start single-threaded).
 - Command Parser
@@ -62,8 +62,8 @@
 - [x] Build DataStore
 - [x] Build Command Parser
 - [x] Build Single-Client TCP Server
-- [ ] Add Persistence
-- [ ] Add Logger 
+- [x] Add Persistence
+- [x] Add Logger 
 - [ ] Make DataStore Thread-Safe
 - [ ] Add Worker Threads
 - [ ] Add Authentication

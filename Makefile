@@ -10,6 +10,7 @@ src/datastore/DataStore.cpp \
 src/command/CommandParser.cpp \
 src/server/Server.cpp \
 src/persistence/PersistenceManager.cpp \
+src/logger/Logger.cpp \
 src/main.cpp
 
 # Output executable name

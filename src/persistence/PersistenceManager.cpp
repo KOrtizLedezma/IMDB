@@ -7,7 +7,7 @@ PersistenceManager::PersistenceManager(const std::string &filename) : filename(f
 void PersistenceManager::save(const DataStore& datastore) {
   std::ofstream outfile(filename, std::ios::trunc);
   if (!outfile.is_open()) {
-    std::cerr << "Error: Could not open file for saving!" << std::endl;
+    Logger::log("Error: Could not open file for saving!", LogLevel::ERROR);
     return;
   }
 
@@ -16,22 +16,29 @@ void PersistenceManager::save(const DataStore& datastore) {
   }
 
   outfile.close();
-  std::cout << "Database saved to " << filename << std::endl;
+  Logger::log("Database saved to " + filename, LogLevel::INFO);
 }
 
 void PersistenceManager::load(DataStore& datastore) {
   std::ifstream infile(filename);
 
   if(!infile.is_open()) {
-    std::cerr << "Warning: No database file found, starting fresh." << std::endl;
+    Logger::log("No database file found, starting fresh.", LogLevel::WARNING);
     return;
   }
 
   std::string key, value;
+  int count = 0;
   while (infile >> key >> value) {
     datastore.set(key, value);
+    count++;
+  }
+
+  if (count == 0) {
+    Logger::log("Database loaded but is empty.", LogLevel::WARNING);
+  } else {
+    Logger::log("Database loaded from " + filename + " with " + std::to_string(count) + " entries.", LogLevel::INFO);
   }
 
   infile.close();
-  std::cout << "Database loaded from " << filename << std::endl;
 }

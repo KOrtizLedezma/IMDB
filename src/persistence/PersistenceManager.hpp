@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../datastore/DataStore.hpp"
+#include "../logger/Logger.hpp"
 #include <string>
 
 class PersistenceManager {
@@ -13,5 +14,5 @@ public:
 
 private:
   std::string filename;
-
+  Logger LogLevel;
 };
