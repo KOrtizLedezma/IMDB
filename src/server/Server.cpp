@@ -8,8 +8,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 
-Server::Server(int port, DataStore& datastore, PersistenceManager& persistence)
-    : port(port), datastore(datastore), persistence(persistence) {}
+Server::Server(int port, DataStore& datastore, PersistenceManager& persistence) : port(port), datastore(datastore), persistence(persistence) {}
 
 void Server::start() {
   int server_fd, client_socket;
