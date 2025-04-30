@@ -29,10 +29,15 @@ void PersistenceManager::load(DataStore& datastore) {
 
   std::string key, value;
   int count = 0;
+
+  datastore.disableEviction();
+
   while (infile >> key >> value) {
     datastore.set(key, value);
     count++;
   }
+
+  datastore.enableEviction();
 
   if (count == 0) {
     Logger::log("Database loaded but is empty.", LogLevel::WARNING);

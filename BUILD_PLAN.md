@@ -68,7 +68,7 @@
 - [x] Add Worker Threads
 - [x] Add Authentication
 - [x] Add Connection Timeouts
-- [ ] Add Eviction
+- [x] Add Eviction
 - [ ] Add Pub/Sub Monitoring
 - [ ] Add Clustering
   
