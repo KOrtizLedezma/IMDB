@@ -1,0 +1,118 @@
+.TH IMDB 1 "April 2025" "v1.0" "User Commands"
+.SH NAME
+IMDB \- a multithreaded in-memory key-value store with authentication, LRU eviction, and pub/sub support
+.SH SYNOPSIS
+.B inmemorydb
+.SH DESCRIPTION
+.B IMDB
+is a lightweight, single-node in-memory key-value database written in C++20.
+
+It supports multiple concurrent clients via worker threads, role-based authentication, LRU-based eviction, deletion notifications, and persistence to disk.
+
+.SH AUTHENTICATION
+All clients must authenticate before executing any command using:
+.TP
+.B AUTH <username> <password>
+Login using an existing user account. Roles supported:
+.IP
+\- \fBADMIN\fR: Full privileges, including user management and deletion control.
+.br
+\- \fBUSER\fR: Limited to basic commands like \fBSET\fR, \fBGET\fR, \fBEXISTS\fR, and \fBEXIT\fR.
+
+The default admin user is:
+.br
+\fBUsername:\fR admin
+.br
+\fBPassword:\fR 1234
+
+User data is stored in \fIuser.txt\fR with hashed+salted passwords.
+
+.SH COMMANDS
+.TP
+.B SET <key> <value>
+Store a key-value pair.
+
+.TP
+.B GET <key>
+Retrieve the value of a key.
+
+.TP
+.B DEL <key>
+Delete a key. Triggers deletion event for subscribers.
+
+.TP
+.B EXISTS <key>
+Check whether a key exists.
+
+.TP
+.B GETALL
+(Admin only) List all stored key-value pairs.
+
+.TP
+.B DELALL
+(Admin only) Delete all keys. Triggers bulk deletion events.
+
+.TP
+.B CREATEUSER <username> <password> <USER|ADMIN>
+(Admin only) Create a new user.
+
+.TP
+.B PROMOTE <username>
+(Admin only) Promote a user to admin role.
+
+.TP
+.B SUBSCRIBE DEL|DELALL
+Subscribe to deletion notifications for the specified event type.
+
+.TP
+.B UNSUBSCRIBE
+Unsubscribe from all events.
+
+.TP
+.B EXIT
+Gracefully disconnect from the server.
+
+.SH LOGGING
+All significant actions (connections, authentications, commands, errors) are logged to the terminal by default.
+
+Log levels include:
+.IP
+\- \fBINFO\fR: successful commands and logins
+.br
+\- \fBWARNING\fR: empty loads or key eviction notices
+.br
+\- \fBERROR\fR: client disconnects, malformed commands, failures
+
+.SH FILES
+.TP
+.B database.txt
+Stores key-value data persistently.
+
+.TP
+.B user.txt
+Stores registered users and their roles in a hashed format.
+
+.TP
+.B log.txt
+Logs are redirected here.
+
+.SH EXAMPLES
+Connect to the server:
+.TP
+.B telnet localhost 12345
+
+Authenticate:
+.TP
+.B AUTH admin 1234
+
+Set and delete keys:
+.TP
+.B SET fruit apple
+.br
+.B DEL fruit
+
+.SH SEE ALSO
+telnet(1), nc(1)
+
+.SH AUTHOR
+Kenet Ortiz

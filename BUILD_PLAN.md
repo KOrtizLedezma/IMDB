@@ -54,9 +54,6 @@
 - Pub/Sub Monitoring Module
   - Allow clients to subscribe to database events (e.g., all `DEL` commands).
   - Push notifications to subscribers.
-- Cluster mode
-  - Split key ranges across multiple server instances.
-  - Clients redirect to the correct server based on key hash.
 
 ## Checklist
 - [x] Build DataStore
@@ -70,5 +67,4 @@
 - [x] Add Connection Timeouts
 - [x] Add Eviction
 - [X] Add Pub/Sub Monitoring
-- [ ] Add Clustering
   
