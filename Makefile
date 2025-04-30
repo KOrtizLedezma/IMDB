@@ -15,6 +15,7 @@ src/worker/WorkerPool.cpp \
 src/crypto/SHA256.cpp \
 src/auth/AuthManager.cpp \
 src/utils/Utils.cpp \
+src/subscription/subscriptionManager.cpp \
 src/main.cpp
 
 # Output executable name

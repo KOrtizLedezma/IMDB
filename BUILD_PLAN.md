@@ -52,7 +52,7 @@
   - Track access time for each key.
   - When memory usage is too high, automatically remove last recently used keys.
 - Pub/Sub Monitoring Module
-  - Allow clients to subscribe to database events (e.g., all `SET` commands).
+  - Allow clients to subscribe to database events (e.g., all `DEL` commands).
   - Push notifications to subscribers.
 - Cluster mode
   - Split key ranges across multiple server instances.
@@ -69,6 +69,6 @@
 - [x] Add Authentication
 - [x] Add Connection Timeouts
 - [x] Add Eviction
-- [ ] Add Pub/Sub Monitoring
+- [X] Add Pub/Sub Monitoring
 - [ ] Add Clustering
   

@@ -163,7 +163,7 @@ void Server::handleClient(int client_socket) {
       datastore.set(command.key, command.value);
       persistence.save(datastore);
       response = "OK\n";
-      }
+    }
     else if (command.type == CommandType::GET) {
       response = datastore.get(command.key) + "\n";
     }
@@ -171,6 +171,7 @@ void Server::handleClient(int client_socket) {
       datastore.del(command.key);
       persistence.save(datastore);
       response = "OK\n";
+      publishEvent("DEL", client_socket, command.key);
     }
     else if (command.type == CommandType::EXISTS) {
       response = datastore.exists(command.key) ? "1\n" : "0\n";
@@ -192,6 +193,7 @@ void Server::handleClient(int client_socket) {
       else {
         for (const auto& [k, _] : datastore.getAll()) {
           datastore.del(k);
+          publishEvent("DELALL", client_socket, k);
         }
         persistence.save(datastore);
         response = "All keys deleted.\n";
@@ -244,10 +246,31 @@ void Server::handleClient(int client_socket) {
       close(client_socket);
       return;
     }
+    else if (tokens.size() == 2 && tokens[0] == "SUBSCRIBE") {
+      if (tokens[1] != "DEL" && tokens[1] != "DELALL") {
+        response = "Only DEL and DELALL subscriptions are allowed.\n";
+      } else {
+        subscriptions.subscribe(client_socket, tokens[1]);
+        response = "Subscribed to " + tokens[1] + "\n";
+      }
+    }
+    else if (tokens.size() == 1 && tokens[0] == "UNSUBSCRIBE") {
+      subscriptions.unsubscribe(client_socket);
+      response = "Unsubscribed from all events.\n";
+    }
     else {
       response = "ERROR: Invalid command\n";
     }
 
     write(client_socket, response.c_str(), response.length());
   }
+}
+
+void Server::publishEvent(const std::string& eventType, int client_socket, const std::string& key, const std::string& extra) {
+  std::string user = auth.getUsername(client_socket);
+  std::string message = "[EVENT:" + eventType + "] " + user + " deleted " + key;
+  if (!extra.empty()) message += " (" + extra + ")";
+  message += "\n";
+
+  subscriptions.notify(eventType, message);
 }
