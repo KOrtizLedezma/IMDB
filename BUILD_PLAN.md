@@ -65,8 +65,8 @@
 - [x] Add Persistence
 - [x] Add Logger 
 - [x] Make DataStore Thread-Safe
-- [ ] Add Worker Threads
-- [ ] Add Authentication
+- [x] Add Worker Threads
+- [x] Add Authentication
 - [ ] Add Connection Timeouts
 - [ ] Add Eviction
 - [ ] Add Pub/Sub Monitoring

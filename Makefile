@@ -12,6 +12,9 @@ src/server/Server.cpp \
 src/persistence/PersistenceManager.cpp \
 src/logger/Logger.cpp \
 src/worker/WorkerPool.cpp \
+src/crypto/SHA256.cpp \
+src/auth/AuthManager.cpp \
+src/utils/Utils.cpp \
 src/main.cpp
 
 # Output executable name

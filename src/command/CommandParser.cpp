@@ -33,5 +33,17 @@ Command CommandParser::parse(const std::string& input) {
   else if (command == "EXIT" && tokens.size() == 1) {
     return {CommandType::EXIT, "", ""};
   }
+  else if (command == "DELALL" && tokens.size() == 1) {
+    return {CommandType::DELALL, "", ""};
+  }
+  else if (command == "GETALL" && tokens.size() == 1) {
+    return {CommandType::GETALL, "", ""};
+  }
+  else if (command == "SHUTDOWN" && tokens.size() == 1) {
+    return {CommandType::SHUTDOWN, "", ""};
+  }
+  else if (command == "PROMOTE" && tokens.size() == 2) {
+    return {CommandType::PROMOTE, tokens[1], ""};
+  }
   return {CommandType::INVALID, "", ""};
 }

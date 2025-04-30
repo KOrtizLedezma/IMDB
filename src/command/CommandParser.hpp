@@ -8,6 +8,10 @@ enum class CommandType {
   DEL,
   EXISTS,
   EXIT,
+  DELALL,
+  GETALL,
+  SHUTDOWN,
+  PROMOTE,
   INVALID // Wrong commands
 };
 
