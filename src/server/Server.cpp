@@ -68,8 +68,27 @@ void Server::handleClient(int client_socket) {
   std::string welcome = "Welcome to InMemoryDB!\nPlease authenticate using: AUTH <username> <password>\n";
   write(client_socket, welcome.c_str(), welcome.length());
 
+  // Auth loop
   while (true) {
     memset(buffer, 0, sizeof(buffer));
+
+    fd_set fds;
+    FD_ZERO(&fds);
+    FD_SET(client_socket, &fds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 300;
+    timeout.tv_usec = 0;
+
+    int activity = select(client_socket + 1, &fds, nullptr, nullptr, &timeout);
+
+    if (activity == 0) {
+      Logger::log("Client disconnected", LogLevel::INFO);
+      auth.logout(client_socket);
+      close(client_socket);
+      return;
+    }
+
     int bytes_read = read(client_socket, buffer, sizeof(buffer));
     if (bytes_read <= 0) {
       Logger::log("Client disconnected (before auth)", LogLevel::INFO);
@@ -100,9 +119,27 @@ void Server::handleClient(int client_socket) {
     }
   }
 
-
+  // Main Command Loop
   while (true) {
     memset(buffer, 0, sizeof(buffer));
+
+    fd_set fds;
+    FD_ZERO(&fds);
+    FD_SET(client_socket, &fds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 300;
+    timeout.tv_usec = 0;
+
+    int activity = select(client_socket + 1, &fds, nullptr, nullptr, &timeout);
+
+    if (activity == 0) {
+      Logger::log("Client disconnected", LogLevel::INFO);
+      auth.logout(client_socket);
+      close(client_socket);
+      return;
+    }
+
     int bytes_read = read(client_socket, buffer, sizeof(buffer));
     if (bytes_read <= 0) {
       Logger::log("Client disconnected: " + auth.getUsername(client_socket), LogLevel::INFO);
